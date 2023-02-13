@@ -1,0 +1,39 @@
+.data-tagging {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  min-width: 1300px;
+
+  .header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    background-color: #1976d2;
+    color: white;
+    font-weight: 600;
+    padding: 0 10px;
+  }
+
+  .main {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    min-width: 800px;
+
+    .content {
+      display: flex;
+      flex: 1;
+      min-width: 500px;
+    }
+
+    .menu {
+      display: flex;
+      width: 300px;
+    }
+  }
+
+  .footer {
+    width: 100%;
+  }
+
+}
