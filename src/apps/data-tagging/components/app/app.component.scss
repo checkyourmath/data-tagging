@@ -1,3 +1,6 @@
+$menu-width: 400px;
+$content-min-width: 500px;
+
 .data-tagging {
   display: flex;
   flex-direction: column;
@@ -18,17 +21,17 @@
     display: flex;
     flex-direction: row;
     flex: 1;
-    min-width: 800px;
+    min-width: $content-min-width + $menu-width;
 
     .content {
       display: flex;
       flex: 1;
-      min-width: 500px;
+      min-width: $content-min-width;
     }
 
     .menu {
       display: flex;
-      width: 300px;
+      width: $menu-width;
     }
   }
 

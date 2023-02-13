@@ -72,7 +72,10 @@
               "browserTarget": "data-tagging:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "src/apps/data-tagging/proxy.conf.js"
+          }
         }
       }
     }

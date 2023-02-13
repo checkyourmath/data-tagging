@@ -1,0 +1,24 @@
+:host {
+  width: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.item-selector {
+  display: flex;
+  flex: 1;
+  background: #eeeeee;
+  box-shadow: 12px 0 15px -4px rgba(200, 200, 200, 0.8), -12px 0 8px -4px rgba(200, 200, 200, 0.8);
+  overflow-y: auto;
+  flex-direction: column;
+
+  .search {
+    border-bottom: 2px solid #ddd;
+    padding: 10px;
+  }
+
+  .results {
+    padding: 10px;
+  }
+}
