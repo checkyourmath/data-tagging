@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/data-tagging",
+    "types": []
+  },
+  "files": [
+    "src/apps/data-tagging/main.ts"
+  ],
+  "include": [
+    "src/apps/data-tagging/**/*.d.ts"
+  ]
+}

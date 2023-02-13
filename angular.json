@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "trax-demo": {
+    "data-tagging": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -12,25 +12,26 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "dt",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/trax-demo",
-            "index": "src/index.html",
-            "main": "src/main.ts",
+            "outputPath": "dist/data-tagging",
+            "index": "src/apps/data-tagging/index.html",
+            "main": "src/apps/data-tagging/main.ts",
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "tsconfig.app.json",
+            "tsConfig": "tsconfig.data-tagging.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
+              "src/apps/data-tagging/favicon.ico",
+              "src/apps/data-tagging/assets",
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/apps/data-tagging/styles.scss"
             ],
             "scripts": []
           },
@@ -65,38 +66,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "trax-demo:build:production"
+              "browserTarget": "data-tagging:build:production"
             },
             "development": {
-              "browserTarget": "trax-demo:build:development"
+              "browserTarget": "data-tagging:build:development"
             }
           },
           "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "trax-demo:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
-          }
         }
       }
     }
