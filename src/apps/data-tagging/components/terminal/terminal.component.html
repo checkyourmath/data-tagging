@@ -1,10 +1,7 @@
 <div class="terminal">
   <div class="content">
-    <pre>ng generate component xyz</pre>
-    <pre>ng add @angular/material</pre>
-    <pre>ng add @angular/pwa</pre>
-    <pre>ng add _____</pre>
-    <pre>ng test</pre>
-    <pre>ng build</pre>
+    <pre
+      *ngFor="let log of logs$ | async"
+    >[{{ log.time.toISOString() }}]: {{ log.message }}</pre>
   </div>
 </div>
