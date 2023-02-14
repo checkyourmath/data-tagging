@@ -1,0 +1,20 @@
+<div class="tagger-image">
+  <dt-spinner
+    *ngIf="isSubmitting"
+    [overlay]="true"
+  ></dt-spinner>
+
+  <div
+    class="image-preview"
+  >
+    <img [src]="image.src" />
+  </div>
+  <div class="actions">
+    <button
+      class="control submit-button"
+      (click)="onSubmitClick()"
+    >
+      Submit Image
+    </button>
+  </div>
+</div>

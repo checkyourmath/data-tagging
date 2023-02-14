@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, switchMap } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
 import { IProductsService } from '../interfaces/products-service.interface';
 import { TProduct } from '../types/product.type';
 import { TSequentialResults } from '../types/sequential-results.type';

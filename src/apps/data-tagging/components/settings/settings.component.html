@@ -1,8 +1,28 @@
 <div class="settings">
   <div class="setting">
+    <div class="label">Zoom Level</div>
+    <div class="control">
+      <select
+        [formControl]="zoomLevelControl"
+        class="zoom-level"
+      >
+        <option value="1.0">100% (off)</option>
+        <option value="1.5">150%</option>
+        <option value="2.0">200%</option>
+        <option value="2.5">250%</option>
+        <option value="3.0">300%</option>
+        <option value="3.5">350%</option>
+        <option value="4.0">400%</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="setting">
     <div class="label">Number of Images</div>
     <div class="control">
-      <select>
+      <select
+        [formControl]="numberOfImagesControl"
+      >
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -18,6 +38,12 @@
   </div>
 
   <div class="setting">
-    <img class="settings-icon" src="apps/data-tagging/assets/img/gear.png" />
+    <img class="settings-icon" src="/apps/data-tagging/assets/img/gear.png" />
+  </div>
+
+  <div class="setting">
+    <button class="help-button">
+      <img class="help-icon" src="/apps/data-tagging/assets/img/help.png" />
+    </button>
   </div>
 </div>

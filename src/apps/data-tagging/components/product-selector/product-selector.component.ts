@@ -53,7 +53,7 @@ export class ProductSelectorComponent implements OnInit {
     private formBuilder: FormBuilder,
     private store: Store,
   ) {
-    this.searchControl = this.formBuilder.control('');
+    this.searchControl = this.formBuilder.control<string>('');
   }
 
   public ngOnInit(): void {

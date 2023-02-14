@@ -46,3 +46,15 @@ a:hover {
     padding: 0 5px;
   }
 }
+
+button.control {
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #1976d2;
+  border: 1px solid #1373bf;
+}

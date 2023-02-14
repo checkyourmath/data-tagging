@@ -15,6 +15,9 @@ import { ProductComponent } from './components/product/product.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { TaggerComponent } from './components/tagger/tagger.component';
+import { IMAGES_SERVICE } from './interfaces/images-service.interface';
+import { ImagesMockService } from './services/images-mock.service';
+import { TaggerImageComponent } from './components/tagger-image/tagger-image.component';
 
 @NgModule({
   imports: [
@@ -30,12 +33,17 @@ import { TaggerComponent } from './components/tagger/tagger.component';
     ProductComponent,
     SpinnerComponent,
     SettingsComponent,
-    TaggerComponent
+    TaggerComponent,
+    TaggerImageComponent
   ],
   providers: [
     {
       provide: PRODUCTS_SERVICE,
       useClass: ProductsHttpService
+    },
+    {
+      provide: IMAGES_SERVICE,
+      useClass: ImagesMockService
     }
   ],
   bootstrap: [AppComponent]

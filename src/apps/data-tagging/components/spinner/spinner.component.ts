@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
+  EventEmitter, Input,
   Output
 } from '@angular/core';
 
@@ -14,7 +14,9 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpinnerComponent implements AfterViewInit {
-  @Output() visible = new EventEmitter<void>();
+
+  @Input() public overlay: boolean;
+  @Output() public visible = new EventEmitter<void>();
 
   private observer: IntersectionObserver;
 

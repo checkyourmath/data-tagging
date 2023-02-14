@@ -12,6 +12,7 @@
 
     .label {
       height: 20px;
+      text-align: center;
     }
 
     .control {
@@ -22,9 +23,29 @@
       margin-top: 5px;
     }
 
+    .zoom-level {
+      width: 100px;
+    }
+
     .settings-icon {
+      width: 30px;
+      height: 30px;
+    }
+
+    .help-button {
+      cursor: pointer;
+      display: flex;
       width: 40px;
       height: 40px;
+      justify-content: center;
+      align-items: center;
+      background: transparent;
+      border: none;
+
+      .help-icon {
+        width: 40px;
+        height: 40px;
+      }
     }
   }
 }

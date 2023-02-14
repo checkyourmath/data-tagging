@@ -1,3 +1,26 @@
 <div class="tagger">
-  tagger
+  <ng-container
+    *ngIf="isLoading; else content"
+  >
+    <dt-spinner></dt-spinner>
+  </ng-container>
+
 </div>
+
+<ng-template #content>
+  <div class="images">
+    <dt-tagger-image
+      *ngFor="let image of images"
+      [image]="image"
+      (submitImage)="onSubmitImage(image)"
+    ></dt-tagger-image>
+  </div>
+  <div class="controls">
+    <button
+      class="control load-next-images-button"
+      (click)="onLoadNextImagesClick()"
+    >
+      Load New Image(s)
+    </button>
+  </div>
+</ng-template>
