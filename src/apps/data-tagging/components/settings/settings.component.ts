@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -14,6 +14,9 @@ import { SetProductsSearchQuery, SetSetting } from '../../state/data-tagging.act
 })
 export class SettingsComponent implements OnInit {
 
+  @Output()
+  public help = new EventEmitter<void>();
+
   public numberOfImagesControl: FormControl<string>;
   public zoomLevelControl: FormControl<string>;
 
@@ -27,6 +30,13 @@ export class SettingsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.subscribeToControls();
+  }
+
+  public onHelpClick(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.help.emit();
   }
 
   private subscribeToControls(): void {

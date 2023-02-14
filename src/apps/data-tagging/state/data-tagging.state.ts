@@ -497,8 +497,6 @@ export class DataTaggingState {
 
     const newMarkers = [ ...image.markers ];
 
-    console.log('newMarkers', newMarkers);
-
     ctx.setState(patch({
       images: patch<TImagesState>({
         data: updateItem<TImage>(

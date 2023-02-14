@@ -3,7 +3,9 @@
   <div class="header">
     <div class="welcome">Welcome to Data Tagging</div>
     <div class="settings">
-      <dt-settings></dt-settings>
+      <dt-settings
+        (help)="onSettingsHelp()"
+      ></dt-settings>
     </div>
   </div>
 
@@ -18,5 +20,64 @@
 
   <div class="footer">
     <dt-terminal></dt-terminal>
+  </div>
+
+  <div
+    *ngIf="isHelpVisible"
+    class="help-dialog"
+    (click)="onHelpClick($event)"
+  >
+    <div class="content">
+      <div class="messages">
+        <div class="strong">
+          To Tag a Product:
+        </div>
+        <div class="shifted">
+          1. Click on Image
+        </div>
+        <div class="shifted">
+          2. Select Product from Search Panel
+        </div>
+        <div class="shifted">
+          3. Click on created Tags to assign selected Product to them
+        </div>
+
+        <div class="strong">
+          Or:
+        </div>
+        <div class="shifted">
+          1. Select Product first
+        </div>
+        <div class="shifted">
+          2. Click on Image
+        </div>
+
+        <div class="strong space">
+          To remove a tag:
+        </div>
+        <div class="shifted">
+          1. Right click it
+        </div>
+
+        <div class="strong space">
+          Settings:
+        </div>
+        <div class="shifted">
+          1. You can adjust zoom level used for hovering state
+        </div>
+        <div class="shifted">
+          2. You can tag up to 3 Images at the same time
+        </div>
+      </div>
+
+      <div class="actions">
+        <button
+          class="control"
+          (click)="onHelpClose()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
   </div>
 </div>
