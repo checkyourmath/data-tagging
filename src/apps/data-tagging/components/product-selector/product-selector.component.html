@@ -1,0 +1,42 @@
+<div class="product-selector">
+  <div class="search">
+    <div class="control">
+      <input
+        type="text"
+        placeholder="Enter Brand Name"
+        [formControl]="searchControl"
+      />
+    </div>
+  </div>
+  <div class="results">
+
+    <div class="message">
+      Selected product:
+    </div>
+
+    <div class="selected-product">
+      <dt-product
+        class="product"
+        [product]="selectedProduct"
+        [selected]="true"
+      ></dt-product>
+    </div>
+
+
+    <div class="products-list">
+      <dt-product
+        *ngFor="let product of products"
+        [product]="product"
+        [selected]="selectedProduct?._id === product._id"
+        (select)="selectProduct(product)"
+        (unselect)="unselectProduct(product)"
+      ></dt-product>
+
+      <dt-spinner
+        *ngIf="isSpinnerVisible"
+        (visible)="onSpinnerVisible()"
+      ></dt-spinner>
+    </div>
+
+  </div>
+</div>

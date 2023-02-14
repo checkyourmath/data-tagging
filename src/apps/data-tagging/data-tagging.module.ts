@@ -8,9 +8,11 @@ import { NgxsModule } from '@ngxs/store';
 import { DataTaggingState } from './state/data-tagging.state';
 import { AppComponent } from './components/app/app.component';
 import { TerminalComponent } from './components/terminal/terminal.component';
-import { ItemSelectorComponent } from './components/item-selector/item-selector.component';
 import { PRODUCTS_SERVICE } from './interfaces/products-service.interface';
 import { ProductsHttpService } from './services/products-http.service';
+import { ProductSelectorComponent } from './components/product-selector/product-selector.component';
+import { ProductComponent } from './components/product/product.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   imports: [
@@ -22,7 +24,9 @@ import { ProductsHttpService } from './services/products-http.service';
   declarations: [
     AppComponent,
     TerminalComponent,
-    ItemSelectorComponent
+    ProductSelectorComponent,
+    ProductComponent,
+    SpinnerComponent
   ],
   providers: [
     {

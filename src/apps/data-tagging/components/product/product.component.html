@@ -1,0 +1,31 @@
+<div
+  class="product"
+  [class.selected]="selected"
+  (click)="onClick()"
+>
+  <div class="image">
+    <img
+      [src]="imageSrc"
+      loading="lazy"
+    />
+  </div>
+  <div class="description">
+    <div class="description-item">
+      <div class="label">Product:</div>
+      <div
+        class="value"
+        [title]="productName"
+      >
+        <span>{{ productName }}</span></div>
+    </div>
+    <div class="description-item">
+      <div class="label">Brand:</div>
+      <div
+        class="value"
+        [title]="brandName"
+      >
+        <span>{{ brandName }}</span>
+      </div>
+    </div>
+  </div>
+</div>

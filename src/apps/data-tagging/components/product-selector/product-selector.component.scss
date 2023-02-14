@@ -5,7 +5,7 @@
   flex-direction: column;
 }
 
-.item-selector {
+.product-selector {
   display: flex;
   flex: 1;
   background: #eeeeee;
@@ -20,5 +20,24 @@
 
   .results {
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+
+    .selected-product {
+      border-bottom: 2px solid #ddd;
+      margin-bottom: 5px;
+    }
+
+    .products-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      height: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
   }
 }

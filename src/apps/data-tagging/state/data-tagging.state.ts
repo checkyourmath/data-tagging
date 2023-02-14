@@ -3,11 +3,18 @@ import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { patch } from '@ngxs/store/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { finalize, Subscription } from 'rxjs';
+import {
+  AddLog,
+  LoadMoreProducts,
+  SelectProduct,
+  SetProductsSearchQuery,
+  UnselectProduct
+} from './data-tagging.actions';
 import { TDataTaggingState } from '../types/dta-tagging-state.type';
-import { AddLog, SetProductsSearchQuery } from './data-tagging.actions';
 import { TLog } from '../types/log.type';
 import { IProductsService, PRODUCTS_SERVICE } from '../interfaces/products-service.interface';
 import { TProductsSearchState } from '../types/products-search-state.type';
+import { TProduct } from '../types/product.type';
 
 @State<TDataTaggingState>({
   name: 'DataTagging',
@@ -21,7 +28,8 @@ import { TProductsSearchState } from '../types/products-search-state.type';
       lastId: null,
       isLoading: false,
       error: null
-    }
+    },
+    selectedProduct: null
   }
 })
 @Injectable()
@@ -45,6 +53,11 @@ export class DataTaggingState {
   @Selector()
   public static productsSearch(state: TDataTaggingState): TProductsSearchState {
     return state.productsSearch;
+  }
+
+  @Selector()
+  public static selectedProduct(state: TDataTaggingState): TProduct {
+    return state.selectedProduct;
   }
 
   @Action(AddLog)
@@ -72,10 +85,12 @@ export class DataTaggingState {
     this.abortProductsSearchRequest();
 
     ctx.setState(patch({
-      productsSearch: patch({
+      productsSearch: patch<TProductsSearchState>({
         query: action.params.query,
         isLoading: true,
+        data: [],
         error: null,
+        lastId: null,
       })
     }));
 
@@ -84,7 +99,7 @@ export class DataTaggingState {
         untilDestroyed(this),
         finalize(() => {
           ctx.setState(patch({
-            productsSearch: patch({
+            productsSearch: patch<TProductsSearchState>({
               isLoading: false,
             })
           }));
@@ -93,7 +108,7 @@ export class DataTaggingState {
       .subscribe({
         next: (result) => {
           ctx.setState(patch({
-            productsSearch: patch({
+            productsSearch: patch<TProductsSearchState>({
               data: result.data,
               lastId: result.lastId
             })
@@ -109,6 +124,82 @@ export class DataTaggingState {
           }));
         }
       });
+  }
+
+  @Action(LoadMoreProducts)
+  public loadMoreProducts(
+    ctx: StateContext<TDataTaggingState>,
+    action: LoadMoreProducts
+  ): void {
+    const currentState = ctx.getState();
+    const { productsSearch: { isLoading, lastId, query, data } } = currentState;
+
+    if (isLoading || !lastId) {
+      return;
+    }
+
+    ctx.setState(patch({
+      productsSearch: patch<TProductsSearchState>({
+        isLoading: true,
+        error: null,
+        lastId: null,
+      })
+    }));
+
+    this.searchRequestSubscription = this.productsService.search(query, lastId)
+      .pipe(
+        untilDestroyed(this),
+        finalize(() => {
+          ctx.setState(patch({
+            productsSearch: patch<TProductsSearchState>({
+              isLoading: false,
+            })
+          }));
+        })
+      )
+      .subscribe({
+        next: (result) => {
+          ctx.setState(patch({
+            productsSearch: patch<TProductsSearchState>({
+              data: [ ...data, ...result.data],
+              lastId: result.lastId
+            })
+          }));
+        },
+        error: (error) => {
+          ctx.setState(patch({
+            productsSearch: patch<TProductsSearchState>({
+              lastId: null,
+              error: error,
+            })
+          }));
+        }
+      });
+  }
+
+  @Action(SelectProduct)
+  public selectProduct(
+    ctx: StateContext<TDataTaggingState>,
+    action: SelectProduct
+  ): void {
+    ctx.patchState({
+      selectedProduct: action.params.product,
+    });
+  }
+
+  @Action(UnselectProduct)
+  public unselectProduct(
+    ctx: StateContext<TDataTaggingState>,
+    action: UnselectProduct
+  ): void {
+    const currentState = ctx.getState();
+    const { selectedProduct } = currentState;
+
+    if (selectedProduct?._id === action.params.product?._id) {
+      ctx.patchState({
+        selectedProduct: null,
+      });
+    }
   }
 
   private abortProductsSearchRequest(): void {
