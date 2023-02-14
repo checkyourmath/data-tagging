@@ -61,6 +61,7 @@
         [imageOffsetHeight]="imageOffsetHeight"
         [imageNaturalWidth]="imageNaturalWidth"
         [imageNaturalHeight]="imageNaturalHeight"
+        (assignProduct)="onMarkerAssignProduct(marker)"
         (remove)="onMarkerRemove(marker)"
       ></dt-tagger-marker>
     </ng-container>

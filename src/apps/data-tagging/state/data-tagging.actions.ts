@@ -46,12 +46,17 @@ export class SubmitImage {
   constructor(public params: { image: TImage }) {}
 }
 
-export class AddMarker {
-  public static readonly type = `${PREFIX} Add Marker`;
+export class MarkerAdd {
+  public static readonly type = `${PREFIX} Marker Add`;
   constructor(public params: { image: TImage; x: number; y: number; }) {}
 }
 
-export class RemoveMarker {
-  public static readonly type = `${PREFIX} Remove Marker`;
+export class MarkerRemove {
+  public static readonly type = `${PREFIX} Marker Remove`;
+  constructor(public params: { image: TImage; marker: TMarker; }) {}
+}
+
+export class MarkerAssignProduct {
+  public static readonly type = `${PREFIX} Marker Assign Product`;
   constructor(public params: { image: TImage; marker: TMarker; }) {}
 }

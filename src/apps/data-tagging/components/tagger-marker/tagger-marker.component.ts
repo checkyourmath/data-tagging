@@ -28,6 +28,9 @@ export class TaggerMarkerComponent {
   @Input()
   public imageNaturalHeight: number;
 
+
+  @Output()
+  public assignProduct = new EventEmitter<void>();
   @Output()
   public remove = new EventEmitter<void>();
 
@@ -52,6 +55,13 @@ export class TaggerMarkerComponent {
   }
 
   public onClick(): void {
+    this.assignProduct.emit();
+  }
+
+  public onContextMenu(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
     this.remove.emit();
   }
 }

@@ -4,11 +4,11 @@ import { patch, updateItem } from '@ngxs/store/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { finalize, Subscription } from 'rxjs';
 import {
-  AddLog, AddMarker, LoadImages,
-  LoadMoreProducts, RemoveMarker,
+  AddLog, MarkerAdd, LoadImages,
+  LoadMoreProducts, MarkerRemove,
   SelectProduct,
   SetProductsSearchQuery, SetSetting, SubmitImage,
-  UnselectProduct
+  UnselectProduct, MarkerAssignProduct
 } from './data-tagging.actions';
 import { TDataTaggingState } from '../types/dta-tagging-state.type';
 import { TLog } from '../types/log.type';
@@ -415,8 +415,8 @@ export class DataTaggingState {
       });
   }
 
-  @Action(AddMarker)
-  public addMarker(ctx: StateContext<TDataTaggingState>, action: AddMarker): void {
+  @Action(MarkerAdd)
+  public markerAdd(ctx: StateContext<TDataTaggingState>, action: MarkerAdd): void {
     const currentState = ctx.getState();
     const { selectedProduct } = currentState;
 
@@ -424,11 +424,8 @@ export class DataTaggingState {
       id: this.nextMarkerId++,
       x: action.params.x,
       y: action.params.y,
+      product_code: selectedProduct?.product_code || null
     };
-
-    if (selectedProduct) {
-      marker.product_code = selectedProduct.product_code;
-    }
 
     ctx.setState(patch({
       images: patch<TImagesState>({
@@ -443,8 +440,8 @@ export class DataTaggingState {
     }));
   }
 
-  @Action(RemoveMarker)
-  public removeMarker(ctx: StateContext<TDataTaggingState>, action: RemoveMarker): void {
+  @Action(MarkerRemove)
+  public markerRemove(ctx: StateContext<TDataTaggingState>, action: MarkerRemove): void {
     const currentState = ctx.getState();
     const { images: { data } } = currentState;
     const image = data.find(item => item.id === action.params.image.id);
@@ -461,13 +458,54 @@ export class DataTaggingState {
 
     image.markers.splice(markerIndex, 1);
 
+    const newMarkers = [ ...image.markers ];
+
     ctx.setState(patch({
       images: patch<TImagesState>({
         data: updateItem<TImage>(
           (item) => item.id === action.params.image.id,
           (existing) => ({
             ...existing,
-            markers: [ ...image.markers ]
+            markers: newMarkers
+          })
+        )
+      })
+    }));
+  }
+
+  @Action(MarkerAssignProduct)
+  public markerAssignProduct(ctx: StateContext<TDataTaggingState>, action: MarkerAssignProduct): void {
+    const currentState = ctx.getState();
+    const { selectedProduct, images: { data } } = currentState;
+
+    const image = data.find(item => item.id === action.params.image.id);
+
+    if (!image) {
+      return;
+    }
+
+    const markerIndex = image.markers.findIndex(item => item.id === action.params.marker.id);
+
+    if (markerIndex < 0) {
+      return;
+    }
+
+    image.markers[markerIndex] = {
+      ...image.markers[markerIndex],
+      product_code: selectedProduct?.product_code || null,
+    }
+
+    const newMarkers = [ ...image.markers ];
+
+    console.log('newMarkers', newMarkers);
+
+    ctx.setState(patch({
+      images: patch<TImagesState>({
+        data: updateItem<TImage>(
+          (item) => item.id === action.params.image.id,
+          (existing) => ({
+            ...existing,
+            markers: newMarkers
           })
         )
       })

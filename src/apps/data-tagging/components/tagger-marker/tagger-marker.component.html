@@ -1,10 +1,12 @@
 <div
   class="tagger-marker"
-  title="Click To Remove"
+  title="Left Click - Assign Selected Product, Right Click - Remove"
   [class.has-product]="hasProduct"
   [style.top]="top + 'px'"
   [style.left]="left + 'px'"
   [style.width]="width + 'px'"
   [style.height]="height + 'px'"
   (click)="onClick()"
+  (contextmenu)="onContextMenu($event)"
 ></div>
+

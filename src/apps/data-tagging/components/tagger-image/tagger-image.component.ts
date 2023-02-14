@@ -35,6 +35,8 @@ export class TaggerImageComponent implements AfterViewInit {
 
   @Output()
   public removeMarker = new EventEmitter<TMarker>();
+  @Output()
+  public markerAssignProduct = new EventEmitter<TMarker>();
 
   @ViewChild('imageElement')
   public imageElement: ElementRef<HTMLImageElement>;
@@ -99,8 +101,6 @@ export class TaggerImageComponent implements AfterViewInit {
     fromEvent(this.imageElement.nativeElement, 'load')
       .pipe(untilDestroyed(this))
       .subscribe(() => {
-        console.dir(this.imageElement.nativeElement);
-
         this.isImageLoading = false;
 
         this.changeDetectorRef.markForCheck();
@@ -171,6 +171,10 @@ export class TaggerImageComponent implements AfterViewInit {
 
   public onMarkerRemove(marker: TMarker): void {
     this.removeMarker.emit(marker);
+  }
+
+  public onMarkerAssignProduct(marker: TMarker): void {
+    this.markerAssignProduct.emit(marker);
   }
 
   public onImageMouseLeave(): void {

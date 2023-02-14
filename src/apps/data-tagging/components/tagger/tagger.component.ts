@@ -4,7 +4,13 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable } from 'rxjs';
 import { DataTaggingState } from '../../state/data-tagging.state';
 import { TSettings } from '../../types/settings.type';
-import { AddMarker, LoadImages, RemoveMarker, SubmitImage } from '../../state/data-tagging.actions';
+import {
+  MarkerAdd,
+  LoadImages,
+  MarkerRemove,
+  SubmitImage,
+  MarkerAssignProduct
+} from '../../state/data-tagging.actions';
 import { TImagesState } from '../../types/images-state.type';
 import { TImage } from '../../types/image.type';
 import { TMarker } from '../../types/marker.tpe';
@@ -60,11 +66,15 @@ export class TaggerComponent implements OnInit {
   }
 
   public onAddMarker(image: TImage, event: { x: number; y: number }): void {
-    this.store.dispatch(new AddMarker({ image, x: event.x, y: event.y }));
+    this.store.dispatch(new MarkerAdd({ image, x: event.x, y: event.y }));
   }
 
   public onRemoveMarker(image: TImage, marker: TMarker): void {
-    this.store.dispatch(new RemoveMarker({ image, marker }));
+    this.store.dispatch(new MarkerRemove({ image, marker }));
+  }
+
+  public onMarkerAssignProduct(image: TImage, marker: TMarker): void {
+    this.store.dispatch(new MarkerAssignProduct({ image, marker }));
   }
 
   private subscribeToStore(): void {
