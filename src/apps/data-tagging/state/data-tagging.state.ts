@@ -107,9 +107,15 @@ export class DataTaggingState {
       )
       .subscribe({
         next: (result) => {
+          const products = result.data || [];
+
+          this.store.dispatch(new AddLog({
+            message: `Loaded ${products.length} products.`
+          }));
+
           ctx.setState(patch({
             productsSearch: patch<TProductsSearchState>({
-              data: result.data,
+              data: products,
               lastId: result.lastId
             })
           }));
@@ -159,9 +165,15 @@ export class DataTaggingState {
       )
       .subscribe({
         next: (result) => {
+          const moreProducts = result.data || [];
+
+          this.store.dispatch(new AddLog({
+            message: `Loaded ${moreProducts.length} more products.`
+          }));
+
           ctx.setState(patch({
             productsSearch: patch<TProductsSearchState>({
-              data: [ ...data, ...result.data],
+              data: [ ...data, ...moreProducts],
               lastId: result.lastId
             })
           }));

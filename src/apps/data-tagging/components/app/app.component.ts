@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
     this.store.dispatch(new AddLog({
-      message: 'AppComponent initialized',
+      message: 'AppComponent initialized.',
     }));
   }
 
