@@ -15,7 +15,20 @@ $content-min-width: 600px;
     background-color: #1976d2;
     color: white;
     font-weight: 600;
-    padding: 0 10px;
+
+    .welcome {
+      height: 60px;
+      padding: 0 20px;
+      margin-right: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .settings {
+      flex: 1;
+      margin: 0 20px;
+    }
   }
 
   .main {
@@ -28,6 +41,7 @@ $content-min-width: 600px;
       display: flex;
       flex: 1;
       min-width: $content-min-width;
+      flex-direction: column;
     }
 
     .menu {

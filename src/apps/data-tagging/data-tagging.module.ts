@@ -13,6 +13,8 @@ import { ProductsHttpService } from './services/products-http.service';
 import { ProductSelectorComponent } from './components/product-selector/product-selector.component';
 import { ProductComponent } from './components/product/product.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { TaggerComponent } from './components/tagger/tagger.component';
 
 @NgModule({
   imports: [
@@ -26,7 +28,9 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     TerminalComponent,
     ProductSelectorComponent,
     ProductComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    SettingsComponent,
+    TaggerComponent
   ],
   providers: [
     {
