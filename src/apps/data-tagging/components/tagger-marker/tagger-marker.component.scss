@@ -1,0 +1,11 @@
+.tagger-marker {
+  position: absolute;
+  background: yellow;
+  transform: translate(-50%, -50%);
+  border: 1px solid black;
+  cursor: pointer;
+
+  &.has-product {
+    background: cyan;
+  }
+}

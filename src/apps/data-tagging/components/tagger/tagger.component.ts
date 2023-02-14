@@ -4,9 +4,10 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable } from 'rxjs';
 import { DataTaggingState } from '../../state/data-tagging.state';
 import { TSettings } from '../../types/settings.type';
-import { LoadImages, SubmitImage } from '../../state/data-tagging.actions';
+import { AddMarker, LoadImages, RemoveMarker, SubmitImage } from '../../state/data-tagging.actions';
 import { TImagesState } from '../../types/images-state.type';
 import { TImage } from '../../types/image.type';
+import { TMarker } from '../../types/marker.tpe';
 
 @UntilDestroy()
 @Component({
@@ -32,6 +33,10 @@ export class TaggerComponent implements OnInit {
     return this.imagesState.data;
   }
 
+  public get zoomLevel(): number {
+    return this.settings?.zoomLevel || 1;
+  }
+
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private store: Store,
@@ -52,6 +57,14 @@ export class TaggerComponent implements OnInit {
 
   public onSubmitImage(image: TImage) {
     this.store.dispatch(new SubmitImage({ image }));
+  }
+
+  public onAddMarker(image: TImage, event: { x: number; y: number }): void {
+    this.store.dispatch(new AddMarker({ image, x: event.x, y: event.y }));
+  }
+
+  public onRemoveMarker(image: TImage, marker: TMarker): void {
+    this.store.dispatch(new RemoveMarker({ image, marker }));
   }
 
   private subscribeToStore(): void {

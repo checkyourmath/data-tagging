@@ -1,13 +1,69 @@
 <div class="tagger-image">
   <dt-spinner
-    *ngIf="isSubmitting"
+    *ngIf="isSubmitting || isImageLoading"
     [overlay]="true"
   ></dt-spinner>
 
   <div
+    #zoomArea
+    *ngIf="isZoomAreaVisible"
+    class="zoom-area"
+    [style.width]="zoomAreaWidth + 'px'"
+    [style.height]="zoomAreaHeight + 'px'"
+  >
+    <img
+      #zoomedImage
+      [src]="image.src"
+      [style.top]="zoomedImageTop + 'px'"
+      [style.left]="zoomedImageLeft + 'px'"
+      [style.width]="zoomedImageWidth + 'px'"
+      [style.height]="zoomedImageHeight + 'px'"
+    />
+
+    <ng-container
+      *ngIf="!isImageLoading"
+    >
+      <dt-tagger-marker
+        *ngFor="let marker of markers"
+        [marker]="marker"
+        [zoomLevel]="zoomLevel"
+        [imageOffsetLeft]="zoomedImageLeft"
+        [imageOffsetTop]="zoomedImageTop"
+        [imageOffsetWidth]="zoomedImageWidth"
+        [imageOffsetHeight]="zoomedImageHeight"
+        [imageNaturalWidth]="imageNaturalWidth"
+        [imageNaturalHeight]="imageNaturalHeight"
+      ></dt-tagger-marker>
+    </ng-container>
+  </div>
+
+  <div
     class="image-preview"
   >
-    <img [src]="image.src" />
+    <img
+      #imageElement
+      [src]="image.src"
+      (mouseenter)="onImageMouseEnter()"
+      (mousemove)="onImageMouseMove($event)"
+      (mouseleave)="onImageMouseLeave()"
+      (click)="onImageClick($event)"
+    />
+
+    <ng-container
+      *ngIf="!isImageLoading"
+    >
+      <dt-tagger-marker
+        *ngFor="let marker of markers"
+        [marker]="marker"
+        [imageOffsetLeft]="imageOffsetLeft"
+        [imageOffsetTop]="imageOffsetTop"
+        [imageOffsetWidth]="imageOffsetWidth"
+        [imageOffsetHeight]="imageOffsetHeight"
+        [imageNaturalWidth]="imageNaturalWidth"
+        [imageNaturalHeight]="imageNaturalHeight"
+        (remove)="onMarkerRemove(marker)"
+      ></dt-tagger-marker>
+    </ng-container>
   </div>
   <div class="actions">
     <button

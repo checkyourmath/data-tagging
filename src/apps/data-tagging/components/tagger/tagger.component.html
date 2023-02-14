@@ -12,7 +12,10 @@
     <dt-tagger-image
       *ngFor="let image of images"
       [image]="image"
+      [zoomLevel]="zoomLevel"
       (submitImage)="onSubmitImage(image)"
+      (addMarker)="onAddMarker(image, $event)"
+      (removeMarker)="onRemoveMarker(image, $event)"
     ></dt-tagger-image>
   </div>
   <div class="controls">

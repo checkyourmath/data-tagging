@@ -4,8 +4,8 @@ import { patch, updateItem } from '@ngxs/store/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { finalize, Subscription } from 'rxjs';
 import {
-  AddLog, LoadImages,
-  LoadMoreProducts,
+  AddLog, AddMarker, LoadImages,
+  LoadMoreProducts, RemoveMarker,
   SelectProduct,
   SetProductsSearchQuery, SetSetting, SubmitImage,
   UnselectProduct
@@ -19,6 +19,7 @@ import { TSettings } from '../types/settings.type';
 import { TImagesState } from '../types/images-state.type';
 import { IImagesService, IMAGES_SERVICE } from '../interfaces/images-service.interface';
 import { TImage } from '../types/image.type';
+import { TMarker } from '../types/marker.tpe';
 
 @State<TDataTaggingState>({
   name: 'DataTagging',
@@ -37,7 +38,7 @@ import { TImage } from '../types/image.type';
     settings: {
       numberOfImages: 1,
       previewBeforeSubmit: false,
-      zoomLevel: 3.0
+      zoomLevel: 2.0
     },
     images: {
       isLoading: false,
@@ -52,6 +53,7 @@ export class DataTaggingState {
 
   private searchRequestSubscription: Subscription = null;
   private imagesRequestSubscription: Subscription = null;
+  private nextMarkerId = 1;
 
   constructor(
     private store: Store,
@@ -355,8 +357,8 @@ export class DataTaggingState {
 
   @Action(SubmitImage)
   public submitImage(ctx: StateContext<TDataTaggingState>, action: SubmitImage): void {
-    const currentState = ctx.getState();
-    const { images: { data, isLoading } } = currentState;
+      const currentState = ctx.getState();
+      const { images: { data, isLoading } } = currentState;
 
     if (isLoading) {
       return;
@@ -411,27 +413,65 @@ export class DataTaggingState {
           this.store.dispatch(new LoadImages());
         }
       });
+  }
 
-    // ctx.setState(patch({
-    //   settings: patch({
-    //     ...action.params,
-    //   })
-    // }));
-    //
-    // const currentState = ctx.getState();
-    // const { settings: { numberOfImages }, images: { data } } = currentState;
-    //
-    // if (numberOfImages < data.length) {
-    //   ctx.setState(patch({
-    //     images: patch<TImagesState>({
-    //       data: data.slice(0, numberOfImages),
-    //     })
-    //   }));
-    // }
-    //
-    // if (numberOfImages > data.length) {
-    //   this.store.dispatch(new LoadImages());
-    // }
+  @Action(AddMarker)
+  public addMarker(ctx: StateContext<TDataTaggingState>, action: AddMarker): void {
+    const currentState = ctx.getState();
+    const { selectedProduct } = currentState;
+
+    const marker: TMarker = {
+      id: this.nextMarkerId++,
+      x: action.params.x,
+      y: action.params.y,
+    };
+
+    if (selectedProduct) {
+      marker.product_code = selectedProduct.product_code;
+    }
+
+    ctx.setState(patch({
+      images: patch<TImagesState>({
+        data: updateItem<TImage>(
+          (item) => item.id === action.params.image.id,
+          (existing) => ({
+            ...existing,
+            markers: [ ...existing.markers, marker ]
+          })
+        )
+      })
+    }));
+  }
+
+  @Action(RemoveMarker)
+  public removeMarker(ctx: StateContext<TDataTaggingState>, action: RemoveMarker): void {
+    const currentState = ctx.getState();
+    const { images: { data } } = currentState;
+    const image = data.find(item => item.id === action.params.image.id);
+
+    if (!image) {
+      return;
+    }
+
+    const markerIndex = image.markers.findIndex(item => item.id === action.params.marker.id);
+
+    if (markerIndex < 0) {
+      return;
+    }
+
+    image.markers.splice(markerIndex, 1);
+
+    ctx.setState(patch({
+      images: patch<TImagesState>({
+        data: updateItem<TImage>(
+          (item) => item.id === action.params.image.id,
+          (existing) => ({
+            ...existing,
+            markers: [ ...image.markers ]
+          })
+        )
+      })
+    }));
   }
 
   private abortProductsSearchRequest(): void {

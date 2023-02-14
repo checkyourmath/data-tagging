@@ -18,6 +18,7 @@ import { TaggerComponent } from './components/tagger/tagger.component';
 import { IMAGES_SERVICE } from './interfaces/images-service.interface';
 import { ImagesMockService } from './services/images-mock.service';
 import { TaggerImageComponent } from './components/tagger-image/tagger-image.component';
+import { TaggerMarkerComponent } from './components/tagger-marker/tagger-marker.component';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { TaggerImageComponent } from './components/tagger-image/tagger-image.com
     SpinnerComponent,
     SettingsComponent,
     TaggerComponent,
-    TaggerImageComponent
+    TaggerImageComponent,
+    TaggerMarkerComponent
   ],
   providers: [
     {

@@ -2,6 +2,7 @@ import { TProductsSearchQuery } from '../types/products-search-query.type';
 import { TProduct } from '../types/product.type';
 import { TSettings } from '../types/settings.type';
 import { TImage } from '../types/image.type';
+import { TMarker } from '../types/marker.tpe';
 
 const PREFIX = '[Data Tagging]';
 
@@ -43,4 +44,14 @@ export class LoadImages {
 export class SubmitImage {
   public static readonly type = `${PREFIX} Submit Image`;
   constructor(public params: { image: TImage }) {}
+}
+
+export class AddMarker {
+  public static readonly type = `${PREFIX} Add Marker`;
+  constructor(public params: { image: TImage; x: number; y: number; }) {}
+}
+
+export class RemoveMarker {
+  public static readonly type = `${PREFIX} Remove Marker`;
+  constructor(public params: { image: TImage; marker: TMarker; }) {}
 }
